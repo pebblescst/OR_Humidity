@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OR Humidity — AST Guidelines Study Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0D1B2A;
+  --navy-mid: #162336;
+  --teal: #0EA5A0;
+  --teal-light: #13C4BE;
+  --teal-faint: rgba(14,165,160,0.10);
+  --teal-faint2: rgba(14,165,160,0.05);
+  --amber: #F5A623;
+  --amber-faint: rgba(245,166,35,0.10);
+  --red: #E05252;
+  --red-faint: rgba(224,82,82,0.10);
+  --green: #27AE60;
+  --green-faint: rgba(39,174,96,0.10);
+  --text: #E8EDF2;
+  --text-muted: #8A9BB0;
+  --text-dim: #5A6B7E;
+  --border: rgba(255,255,255,0.07);
+  --border-teal: rgba(14,165,160,0.25);
+  --card-bg: rgba(255,255,255,0.03);
+  --card-hover: rgba(255,255,255,0.055);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Geist', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--navy);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* ── HEADER ── */
+.header {
+  background: linear-gradient(135deg, #0a1520 0%, #0D1B2A 50%, #091922 100%);
+  border-bottom: 1px solid var(--border-teal);
+  padding: 3rem 2rem 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 280px; height: 280px;
+  background: radial-gradient(circle, rgba(14,165,160,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px; left: 30%;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, rgba(14,165,160,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  position: relative;
+}
+.header-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 0.75rem;
+}
+.header h1 {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 2.8rem);
+  font-weight: 400;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 0.5rem;
+}
+.header h1 em {
+  font-style: italic;
+  color: var(--teal-light);
+}
+.header-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+.header-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.hbadge {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  background: rgba(14,165,160,0.12);
+  border: 1px solid var(--border-teal);
+  color: var(--teal-light);
+  border-radius: 4px;
+  padding: 3px 10px;
+}
+
+/* ── NAV ── */
+.nav-wrap {
+  background: var(--navy-mid);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.nav-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+.nav-tab {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 14px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--teal-light); border-bottom-color: var(--teal); font-weight: 500; }
+.tab-icon { font-size: 15px; }
+
+/* ── CONTENT ── */
+.content-wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── SECTION HEADING ── */
+.section-heading {
+  font-family: var(--serif);
+  font-size: 1.75rem;
+  font-weight: 400;
+  color: #fff;
+  margin-bottom: 0.4rem;
+}
+.section-sub {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+/* ── ALERT BOXES ── */
+.alert {
+  display: flex;
+  gap: 12px;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.alert-teal { background: var(--teal-faint); border: 1px solid var(--border-teal); color: var(--text); }
+.alert-amber { background: var(--amber-faint); border: 1px solid rgba(245,166,35,0.25); color: var(--text); }
+.alert-red { background: var(--red-faint); border: 1px solid rgba(224,82,82,0.25); color: var(--text); }
+.alert-green { background: var(--green-faint); border: 1px solid rgba(39,174,96,0.25); color: var(--text); }
+
+/* ── CARDS ── */
+.card-grid { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+.card-grid.two { grid-template-columns: repeat(2, 1fr); }
+.card-grid.three { grid-template-columns: repeat(3, 1fr); }
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+  transition: background 0.2s, border-color 0.2s;
+}
+.card:hover { background: var(--card-hover); border-color: rgba(14,165,160,0.2); }
+.card-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.card-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.card-body {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── RH RANGE DISPLAY ── */
+.rh-display {
+  background: var(--card-bg);
+  border: 1px solid var(--border-teal);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.rh-display-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.rh-range {
+  font-family: var(--serif);
+  font-size: 3rem;
+  color: var(--teal-light);
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+.rh-range small { font-size: 1.4rem; color: var(--text-muted); }
+.rh-range-note { font-size: 13px; color: var(--text-muted); }
+
+/* ── STAT ROW ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.stat-box {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+.stat-val {
+  font-family: var(--mono);
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: var(--teal-light);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-lbl { font-size: 12px; color: var(--text-muted); line-height: 1.4; }
+
+/* ── DETAIL LISTS ── */
+.detail-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.detail-list li {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  padding-left: 1.25rem;
+  position: relative;
+  line-height: 1.6;
+}
+.detail-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--teal);
+  font-weight: 600;
+}
+.detail-list li strong { color: var(--text); font-weight: 500; }
+
+/* ── DIVIDER ── */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+/* ── SUB LABEL ── */
+.sub-label {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 1.75rem 0 0.85rem;
+}
+
+/* ── EXPANDABLE CARDS ── */
+.exp-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 0.65rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.exp-card.open { border-color: rgba(14,165,160,0.3); }
+.exp-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.25rem;
+  cursor: pointer;
+  gap: 12px;
+}
+.exp-head:hover { background: var(--card-hover); }
+.exp-head-left { flex: 1; min-width: 0; }
+.exp-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--teal);
+  margin-bottom: 3px;
+}
+.exp-title { font-size: 14.5px; font-weight: 500; color: var(--text); }
+.exp-chevron {
+  font-size: 12px;
+  color: var(--text-dim);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.exp-card.open .exp-chevron { transform: rotate(180deg); color: var(--teal); }
+.exp-body {
+  display: none;
+  padding: 0 1.25rem 1.1rem;
+  border-top: 1px solid var(--border);
+}
+.exp-card.open .exp-body { display: block; padding-top: 1rem; }
+
+/* ── RISK ASSESSMENT TABLE ── */
+.risk-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin-top: 0.5rem;
+}
+.risk-table th {
+  background: rgba(14,165,160,0.1);
+  color: var(--teal-light);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-teal);
+}
+.risk-table td {
+  padding: 10px 14px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.risk-table tr:last-child td { border-bottom: none; }
+.risk-table tr:hover td { background: var(--card-hover); color: var(--text); }
+.risk-table td:first-child { color: var(--text); font-weight: 500; }
+
+/* ── NUMBERED STEPS ── */
+.steps { display: flex; flex-direction: column; gap: 1rem; }
+.step {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 28px; height: 28px;
+  background: var(--teal-faint);
+  border: 1px solid var(--border-teal);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--teal-light);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.step-content { flex: 1; }
+.step-title { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.step-body { font-size: 13.5px; color: var(--text-muted); line-height: 1.6; }
+
+/* ── KEY POINT BOX ── */
+.keypoint {
+  background: linear-gradient(135deg, rgba(14,165,160,0.12), rgba(14,165,160,0.05));
+  border: 1px solid var(--border-teal);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.6;
+}
+.keypoint strong { color: var(--teal-light); }
+
+/* ── GLOSSARY ── */
+.glossary-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+.gloss-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.85rem 1.1rem;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 1rem;
+  align-items: start;
+}
+.gloss-term {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--teal-light);
+  font-weight: 500;
+  line-height: 1.5;
+}
+.gloss-def {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ── COMPETENCY TABLE ── */
+.comp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.comp-table th {
+  background: rgba(14,165,160,0.1);
+  color: var(--teal-light);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-teal);
+}
+.comp-table td {
+  padding: 10px 14px;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.comp-table tr:last-child td { border-bottom: none; }
+.comp-num {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--teal);
+  margin-right: 6px;
+}
+
+@media (max-width: 640px) {
+  .header { padding: 2rem 1.25rem; }
+  .content-wrap { padding: 1.5rem 1.25rem 3rem; }
+  .card-grid.two, .card-grid.three { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .gloss-item { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-kicker">AST Guidelines · Approved April 2015 · Revised June 2017</div>
+    <h1>Humidity in the <em>Operating Room</em></h1>
+    <p class="header-sub">Best Practices for Surgical Technologists — Relative Humidity, ESD, Sterile Supply Integrity & Risk Assessment</p>
+    <div class="header-badges">
+      <span class="hbadge">ASHRAE 170</span>
+      <span class="hbadge">NFPA 99</span>
+      <span class="hbadge">CMS Compliance</span>
+      <span class="hbadge">IFU Requirements</span>
+      <span class="hbadge">AST Standards</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-wrap">
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showTab('overview', this)"><span class="tab-icon">🌡️</span>Overview</button>
+    <button class="nav-tab" onclick="showTab('guidelines', this)"><span class="tab-icon">📋</span>Guidelines I–III</button>
+    <button class="nav-tab" onclick="showTab('impacts', this)"><span class="tab-icon">⚡</span>Clinical Impacts</button>
+    <button class="nav-tab" onclick="showTab('risk', this)"><span class="tab-icon">🔍</span>Risk Assessment</button>
+    <button class="nav-tab" onclick="showTab('competency', this)"><span class="tab-icon">✅</span>Competency</button>
+    <button class="nav-tab" onclick="showTab('glossary', this)"><span class="tab-icon">📖</span>Glossary</button>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="content-wrap">
+
+  <!-- ══════════════════════════════════
+       TAB 1: OVERVIEW
+  ══════════════════════════════════ -->
+  <div id="overview" class="section active">
+    <h2 class="section-heading">Overview & Rationale</h2>
+    <p class="section-sub">Why relative humidity in the OR matters — and how the standards have evolved.</p>
+
+    <div class="alert alert-teal">
+      <span class="alert-icon">🎯</span>
+      <div><strong>Core Purpose:</strong> Maintaining the correct level of relative humidity (RH) in the OR is essential to control microbial growth, prevent electrostatic discharge (ESD), preserve sterile supply integrity, protect electro-medical devices (EMDs), and ensure OR team comfort.</div>
+    </div>
+
+    <div class="rh-display">
+      <div class="rh-display-label">Current ASHRAE-Approved RH Range for Anesthetizing Locations</div>
+      <div class="rh-range">20% <small>–</small> 60%</div>
+      <div class="rh-range-note">Revised 2008 · Adopted by NFPA 99 (2012), CMS (2013), and Facility Guidelines Institute</div>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="stat-val">30%</div>
+        <div class="stat-lbl">Former minimum RH standard (pre-2008)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">20%</div>
+        <div class="stat-lbl">Current CMS minimum RH for anesthetizing locations (since 2013)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val">$200M</div>
+        <div class="stat-lbl">Estimated industry savings over 10 years from the lower RH standard</div>
+      </div>
+    </div>
+
+    <p class="sub-label">Historical Timeline</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Pre-2008</div>
+        <div class="card-title">30% Minimum RH</div>
+        <div class="card-body">The longstanding standard. Set to aid microbial control, prevent ESD, and maintain OR team comfort. Also required by NFPA 99 (1999 edition: &gt;35% RH in anesthetizing locations).</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2008 · ASHRAE Revision</div>
+        <div class="card-title">Lower Limit Dropped to 20%</div>
+        <div class="card-body">ASHRAE Addendum D to Standard 170 expanded the minimum RH from 30% to 20% — driven by HDO challenges in cold/dry climates and costly HVAC requirements.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">2012 · NFPA 99</div>
+        <div class="card-title">ASHRAE Standard Adopted</div>
+        <div class="card-body">NFPA 99 eliminated direct RH references and cross-referenced ASHRAE Standard 170. Facility Guidelines Institute followed suit in the 2014 edition.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">April 2013 · CMS</div>
+        <div class="card-title">Federal Compliance Updated</div>
+        <div class="card-body">CMS officially lowered the minimum RH requirement for anesthetizing locations from &gt;35% to 20%, allowing HDOs nationwide to set the lower end at 20%.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Summer 2014 · Key Event</div>
+        <div class="card-title">CMS Surveyor Citation</div>
+        <div class="card-body">A hospital was cited because RH fell below the level stated in a sterile product's IFU — revealing a critical oversight: the standard change did not account for product-specific IFU requirements.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">January 2015 · Joint Comm.</div>
+        <div class="card-title">Multi-Org Joint Communication</div>
+        <div class="card-body">13+ organizations (AST, AORN, AAMI, ASHRAE, AHA, ASA, etc.) issued a joint communication to HDOs about IFU compliance and the risks of lower RH on sterile supplies and EMDs.</div>
+      </div>
+    </div>
+
+    <div class="alert alert-amber">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Critical Oversight:</strong> The ASHRAE standard change to 20% did NOT address the impact on supplies and equipment used in anesthetizing locations. Manufacturer IFUs — which may still require 30–60% RH — must be consulted and followed independently of ASHRAE standards.</div>
+    </div>
+
+    <p class="sub-label">Why the Old 30% Standard Was Relaxed</p>
+    <ul class="detail-list">
+      <li>Development and widespread use of <strong>non-flammable anesthetic gases</strong> reduced fire risk concerns</li>
+      <li>Improved <strong>ventilation system technology</strong> changed OR airflow management</li>
+      <li>Improved materials in <strong>sterile drapes and gowns</strong> reduced flammability and ESD contribution</li>
+      <li>Many HDOs — particularly in <strong>cold-weather and arid regions</strong> — found maintaining ≥30% RH extremely difficult and expensive</li>
+      <li>Additional HVAC equipment needed to maintain higher RH incurred <strong>installation and ongoing maintenance costs</strong></li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 2: GUIDELINES I–III
+  ══════════════════════════════════ -->
+  <div id="guidelines" class="section">
+    <h2 class="section-heading">AST Guidelines I – III</h2>
+    <p class="section-sub">The three formal guidelines and their associated standards for CSTs and healthcare delivery organizations.</p>
+
+    <!-- Guideline I -->
+    <div class="exp-card open">
+      <div class="exp-head" onclick="toggleExp(this)">
+        <div class="exp-head-left">
+          <div class="exp-tag">Guideline I</div>
+          <div class="exp-title">Establish RH Levels in Compliance with Federal Regulations & IFUs</div>
+        </div>
+        <span class="exp-chevron">▼</span>
+      </div>
+      <div class="exp-body">
+        <div class="alert alert-teal">
+          <span class="alert-icon">📌</span>
+          <div><strong>Core Requirement:</strong> HDOs should establish OR RH levels that comply with both federal regulations AND the IFUs for all supplies and equipment stored or used in the OR — these may differ.</div>
+        </div>
+        <ul class="detail-list">
+          <li>A <strong>coordinated team effort</strong> is required — CSTs, HTMs (formerly "biomedical technicians"), RNs, and environmental services must all participate</li>
+          <li>The team should <strong>complete a risk assessment</strong> to identify relevant scientific and technical issues before establishing RH policies</li>
+          <li>Risk assessment results and committee decisions must be <strong>documented</strong></li>
+          <li>CSTs and all OR personnel must <strong>know and understand the IFUs</strong> for all supplies and equipment stored and used in the OR</li>
+          <li>The HDO's safety or environment committee should be involved — not just facilities management</li>
+        </ul>
+        <div class="keypoint"><strong>Key Point:</strong> Federal standards set the minimum RH range. Manufacturer IFUs set the specific RH requirements for each product. Both must be followed — and IFUs may be more restrictive than federal standards.</div>
+      </div>
+    </div>
+
+    <!-- Guideline II -->
+    <div class="exp-card">
+      <div class="exp-head" onclick="toggleExp(this)">
+        <div class="exp-head-left">
+          <div class="exp-tag">Guideline II</div>
+          <div class="exp-title">Annual Review of Humidity Policies & Procedures</div>
+        </div>
+        <span class="exp-chevron">▼</span>
+      </div>
+      <div class="exp-body">
+        <ul class="detail-list">
+          <li>The surgery department must review all <strong>policies and procedures (P&Ps) for OR humidity on an annual basis</strong></li>
+          <li>Reviews must include a multidisciplinary group: <strong>CSTs, surgeons, RNs, risk management, and the infection control officer</strong></li>
+          <li>The department must <strong>document</strong>: when P&Ps were reviewed, what revisions were made (if any), and who participated</li>
+          <li>All CSTs must be <strong>familiar with current P&Ps</strong> for humidity in the OR</li>
+          <li><strong>New employee orientation</strong> must include reviewing the humidity P&Ps</li>
+        </ul>
+        <div class="alert alert-amber">
+          <span class="alert-icon">📄</span>
+          <div><strong>Documentation Requirement:</strong> All reviews must be formally documented — including dates, participants, and any revisions. This is a regulatory and accreditation requirement.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Guideline III -->
+    <div class="exp-card">
+      <div class="exp-head" onclick="toggleExp(this)">
+        <div class="exp-head-left">
+          <div class="exp-tag">Guideline III</div>
+          <div class="exp-title">Continuing Education for CSTs on OR Humidity</div>
+        </div>
+        <span class="exp-chevron">▼</span>
+      </div>
+      <div class="exp-body">
+        <ul class="detail-list">
+          <li>CSTs must <strong>complete continuing education (CE)</strong> to remain current in their knowledge of OR humidity standards</li>
+          <li>CE should be based on <strong>andragogy</strong> — the adult learning theory by Malcolm Knowles — where education is relevant, practical, and learner-active</li>
+          <li>Surgery departments should use <strong>varied instructional methods</strong> to facilitate learning</li>
+          <li>If primarily lecture-based, supplement with <strong>case study discussions and audience participation</strong></li>
+          <li>Proven alternatives include: <strong>interactive training videos, computerized training modules, and teleconferences</strong></li>
+          <li>CE should be delivered in <strong>short modules</strong>, not one lengthy session</li>
+          <li>CE programs should be <strong>periodically evaluated for effectiveness</strong>, including participant feedback</li>
+        </ul>
+
+        <div class="keypoint"><strong>Education Records Must Be Maintained for a Minimum of 3 Years</strong> and include: dates of sessions, names and job titles of participants, a synopsis of each session, and names/credentials/experience of instructors.</div>
+
+        <div class="card-grid two" style="margin-top:1rem">
+          <div class="card">
+            <div class="card-label">Adult Learning (Andragogy)</div>
+            <div class="card-title">Malcolm Knowles Principles</div>
+            <div class="card-body">Adults learn best when: information is relevant to their work experience; material is practical rather than purely academic; the learner is actively involved in the process.</div>
+          </div>
+          <div class="card">
+            <div class="card-label">CE Records — 3-Year Minimum</div>
+            <div class="card-title">Required Documentation</div>
+            <div class="card-body">Dates of education · Names & job titles of attendees · Synopsis of each session · Instructor names, credentials, and experience.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 3: CLINICAL IMPACTS
+  ══════════════════════════════════ -->
+  <div id="impacts" class="section">
+    <h2 class="section-heading">Clinical Impacts of Low Humidity</h2>
+    <p class="section-sub">How RH levels below 30% affect sterile supplies, electro-medical devices, patient safety, and OR personnel.</p>
+
+    <div class="alert alert-red">
+      <span class="alert-icon">🚨</span>
+      <div><strong>Core Risk:</strong> Reducing OR RH below the level specified in a product's IFU can compromise sterile supply integrity, cause EMD malfunction, and create ESD hazards — even if the facility is in compliance with federal standards.</div>
+    </div>
+
+    <p class="sub-label">Impact on Sterile Supplies</p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="card-label">Shelf Life</div>
+        <div class="card-title">Shortened or Compromised</div>
+        <div class="card-body">Manufacturers test products at a specific RH (assumed to be 30%). If stored at a lower RH than the IFU specifies, the shelf life of sterile supplies can be shortened or invalidated.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Product Integrity</div>
+        <div class="card-title">Package & Performance Affected</div>
+        <div class="card-body">Lower RH can compromise the integrity of sterile packaging and the performance of humidity-sensitive products — regardless of whether federal RH minimums are met.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Humidity-Sensitive Products</div>
+        <div class="card-title">High-Risk Items to Know</div>
+        <div class="card-body">
+          <ul class="detail-list">
+            <li><strong>Biological indicators</strong> — used for sterilization monitoring</li>
+            <li><strong>Chemical indicators</strong> — used for sterilization monitoring</li>
+            <li><strong>EKG electrodes</strong> — packaged in foil pouches specifically to protect against humidity changes</li>
+            <li><strong>Electrosurgical consumables</strong> — some are humidity-sensitive</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Manufacturer Testing Gap</div>
+        <div class="card-title">Transition Challenge</div>
+        <div class="card-body">Manufacturers must re-test all products at the lower RH — a time-consuming and equipment-intensive process. Until products are re-tested and re-cleared, the original IFU requirement stands.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <p class="sub-label">Impact on Electro-Medical Devices (EMDs)</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-label">Malfunction Risk</div>
+        <div class="card-title">Older EMDs Most Vulnerable</div>
+        <div class="card-body">EMDs — particularly older models — may malfunction unexpectedly at RH levels below their IFU requirements. Low humidity can also affect calibration accuracy. Capital equipment with long intended lifespans may not be compatible with newer lower RH standards.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">ESD to Equipment</div>
+        <div class="card-title">Internal Component Damage</div>
+        <div class="card-body">Larger electrostatic discharge (ESD) pulses at low RH can destroy internal parts of EMDs, cause premature failure, and produce erratic software behavior due to "confusion" from ESD pulses. Lower RH = larger potential ESD events.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Mixed Device Fleet</div>
+        <div class="card-title">No Universal RH Applies</div>
+        <div class="card-body">Most ORs use a mix of old and new EMDs from multiple manufacturers. A standard RH policy cannot be assumed to cover all devices. Each device's IFU must be reviewed independently. New equipment trends toward accepting lower RH levels.</div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <p class="sub-label">Impact on OR Personnel & Fire Safety</p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="card-label">Personnel Safety</div>
+        <div class="card-title">Electrostatic Shock Risk</div>
+        <div class="card-body">In low-humidity environments, OR staff can more easily become "charged" and receive electrostatic shocks when contacting EMDs. Dr. Farhad Memarzadeh (NIH) notes no documented cases in MAUDE or ECRI databases of static-caused patient harm or device fire at 20% RH — though vigilance is warranted.</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Surgical Fire Triangle</div>
+        <div class="card-title">ESD as Ignition Source</div>
+        <div class="card-body">ESD can serve as an ignition source completing the <strong>surgical fire triangle</strong>: <em>ignition source + oxygen + fuel</em>. Low RH increases ESD potential. Non-flammable anesthetics have reduced (but not eliminated) this concern.</div>
+      </div>
+    </div>
+
+    <div class="keypoint"><strong>IFU Rule:</strong> It is uncertain for how long RH can remain below a manufacturer's minimum before equipment or product integrity is affected. Do not assume short-term deviations are safe — contact the manufacturer for excursion data.</div>
+
+    <hr class="divider">
+    <p class="sub-label">HVAC & Facility Challenges</p>
+    <ul class="detail-list">
+      <li>RH is <strong>intimately tied to outdoor air and local climate</strong> — facilities in arid regions or areas with extreme seasonal variation face ongoing challenges maintaining higher RH levels</li>
+      <li><strong>Humidification systems take time</strong> to compensate when weather conditions change abruptly — the nominal "setpoint" may not be maintained during transitions</li>
+      <li>Installing additional HVAC humidification equipment to maintain ≥30% RH is <strong>expensive and requires ongoing maintenance</strong></li>
+      <li>ASHRAE 170 addresses design standards but <strong>does not require 100% operational compliance</strong> at design goals at all times</li>
+      <li>If the decision is made to allow RH below 30%, consider <strong>moving sensitive supplies to a humidity-controlled storage area</strong></li>
+    </ul>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 4: RISK ASSESSMENT
+  ══════════════════════════════════ -->
+  <div id="risk" class="section">
+    <h2 class="section-heading">Risk Assessment Framework</h2>
+    <p class="section-sub">8-step process for HDOs considering OR RH levels below 30% — from the AST/AAMI Joint Communication (January 2015).</p>
+
+    <div class="alert alert-amber">
+      <span class="alert-icon">📋</span>
+      <div><strong>Before Establishing RH Below 30%:</strong> Healthcare facilities must conduct a thorough risk assessment addressing the equipment and supplies in use. The following 8 questions are the required framework per the joint communication.</div>
+    </div>
+
+    <p class="sub-label">The 8-Step Risk Assessment Questions</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Desired vs. Achievable RH</div>
+          <div class="step-body">What is the desired minimum humidity level and range in the OR — and what RH can the HVAC system actually achieve and <em>maintain</em> across a variety of weather conditions? These may differ significantly.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Historical RH Data Analysis</div>
+          <div class="step-body">Have you assessed humidity level data over a sufficient time period (covering all seasonal variations) to know whether, when, and for how long humidity falls below 30% due to environmental conditions? Conducted in consultation with facilities engineers.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">IFU Inventory Audit</div>
+          <div class="step-body">Have you determined what the IFUs specify for humidity levels for <em>each item</em> in the HDO's existing inventory of supplies and equipment used in the OR? This includes every sterile supply and every EMD.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Risk of Using Out-of-Range Equipment</div>
+          <div class="step-body">What are the likely risks of using equipment that calls for ≥30% RH (especially older EMDs)? What are the potential impacts on device performance, sterility, and patient safety?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Manufacturer Excursion Data</div>
+          <div class="step-body">Request from manufacturers the variance of time ("excursion data") that products can be out of range before package integrity or performance is affected. Note: this data may not yet be available from all manufacturers.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Planned New Supplies & Equipment</div>
+          <div class="step-body">For any planned new supplies and equipment purchases, what are the anticipated recommended humidity levels for both storage and use? Factor this into procurement decisions.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-title">Overall Benefit-Risk Analysis</div>
+          <div class="step-body">Using all available information, has an overall assessment been conducted to determine whether the benefits of lowering the humidity level threshold below 30% override the potential risks to patients and equipment?</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <div class="step-title">Humidity-Controlled Storage</div>
+          <div class="step-body">If the decision is made to maintain OR humidity below 30%, consider relocating supplies that require ≥30% RH to a dedicated humidity-controlled storage closet. Note: EKG electrodes and other humidity-sensitive items are used throughout the facility — the same assessment applies to other clinical areas.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+    <p class="sub-label">Who Should Be Involved in the Risk Assessment</p>
+    <table class="risk-table">
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Contribution to Risk Assessment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>CST (Certified Surgical Technologist)</td>
+          <td>Monitors and documents RH levels; reports IFU compliance concerns; serves on the committee; identifies humidity-sensitive supplies in daily use</td>
+        </tr>
+        <tr>
+          <td>HTM (Healthcare Technology Management)</td>
+          <td>Evaluates EMD IFUs; reports device performance issues at lower RH; advises on calibration and ESD risk; assesses mixed-age device fleet</td>
+        </tr>
+        <tr>
+          <td>RN / Perioperative Nurse</td>
+          <td>Contributes clinical perspective; helps identify patient safety implications; participates in P&P development</td>
+        </tr>
+        <tr>
+          <td>Facilities / HVAC Engineers</td>
+          <td>Evaluates what RH the HVAC system can realistically achieve; provides historical RH monitoring data; assesses seasonal variation</td>
+        </tr>
+        <tr>
+          <td>Infection Control Officer</td>
+          <td>Reviews microbial growth implications; evaluates sterilization monitoring product IFU compliance</td>
+        </tr>
+        <tr>
+          <td>Risk Management</td>
+          <td>Reviews liability and regulatory exposure; ensures documentation; coordinates accreditation compliance</td>
+        </tr>
+        <tr>
+          <td>Surgeons / Clinical Leadership</td>
+          <td>Provide clinical input; involved in annual P&P review; final patient safety oversight</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert alert-green" style="margin-top:1.5rem">
+      <span class="alert-icon">✅</span>
+      <div><strong>Two Goals of All Stakeholders:</strong> (1) Ensure patients are protected through the safe and effective use of equipment and products during surgery. (2) Eliminate waste of resources for installation, energy, and maintenance that do not improve patient outcomes.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 5: COMPETENCY
+  ══════════════════════════════════ -->
+  <div id="competency" class="section">
+    <h2 class="section-heading">CST Competency Statements</h2>
+    <p class="section-sub">Formal competency requirements and measurable criteria for Certified Surgical Technologists regarding OR humidity.</p>
+
+    <div class="alert alert-teal">
+      <span class="alert-icon">🏅</span>
+      <div><strong>CST® is a registered trademark of the National Board of Surgical Technology & Surgical Assisting (NBSTSA).</strong> The competencies below align with the Core Curriculum for Surgical Technology and CAAHEP/ABHES accreditation standards.</div>
+    </div>
+
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Competency Statement</th>
+          <th>Measurable Criteria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="comp-num">1.</span>CSTs can <strong>monitor and document the RH level</strong> of the ORs.</td>
+          <td>
+            <ul class="detail-list">
+              <li>Educational standards as established by the Core Curriculum for Surgical Technology</li>
+              <li>OR humidity is included in CAAHEP- and ABHES-accredited surgical technology program didactic instruction</li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="comp-num">2.</span>CSTs can <strong>serve on and participate in a committee</strong> assigned to complete a risk assessment, publish results, and make RH-level recommendations to the HDO for anesthetizing locations.</td>
+          <td>
+            <ul class="detail-list">
+              <li>Students demonstrate knowledge of OR humidity in the lab/mock OR and during clinical rotations</li>
+              <li>CSTs monitor and document RH levels of the ORs</li>
+              <li>CSTs complete CE to remain current in HVAC standards including temperature and RH levels</li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr class="divider">
+    <p class="sub-label">Key Organizations & Standards Referenced</p>
+    <div class="card-grid two">
+      <div class="card">
+        <div class="card-label">Federal / Regulatory</div>
+        <div class="card-title">Governing Standards</div>
+        <div class="card-body">
+          <ul class="detail-list">
+            <li><strong>CMS</strong> — Sets federal compliance requirements for anesthetizing locations (≥20% RH as of 2013)</li>
+            <li><strong>FDA / MAUDE</strong> — Device experience reporting database; reviewed for ESD/device incidents</li>
+            <li><strong>The Joint Commission</strong> — Accreditation body; supports ASHRAE standard</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Engineering / Professional</div>
+        <div class="card-title">Technical Standards Bodies</div>
+        <div class="card-body">
+          <ul class="detail-list">
+            <li><strong>ASHRAE Standard 170</strong> — Ventilation of Health Care Facilities; sets the 20–60% RH range</li>
+            <li><strong>NFPA 99</strong> — Health Care Facilities Code; cross-references ASHRAE 170 since 2012</li>
+            <li><strong>AAMI</strong> — Convened the multi-org stakeholder meeting (Oct 2014) leading to the joint communication</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Professional Associations</div>
+        <div class="card-title">Joint Communication Signatories</div>
+        <div class="card-body">
+          <ul class="detail-list">
+            <li>AST, AORN, ASA, ASHE, ASHRAE, AAMI, AHA, ACCE, AHRMM, ASCA, HIDA, IAHCSMM</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-label">Educational</div>
+        <div class="card-title">CST Education Standards</div>
+        <div class="card-body">
+          <ul class="detail-list">
+            <li><strong>CAAHEP / ABHES</strong> — Accredit surgical technology programs; OR humidity must be included in didactic content</li>
+            <li><strong>NBSTSA</strong> — Confers the CST credential</li>
+            <li><strong>AST Core Curriculum</strong> — Educational framework for surgical technology programs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       TAB 6: GLOSSARY
+  ══════════════════════════════════ -->
+  <div id="glossary" class="section">
+    <h2 class="section-heading">Key Terms & Glossary</h2>
+    <p class="section-sub">Definitions as established by AST Guidelines for Humidity in the Operating Room (Approved 2015, Revised 2017).</p>
+
+    <div class="glossary-grid">
+      <div class="gloss-item">
+        <div class="gloss-term">Relative Humidity (RH)</div>
+        <div class="gloss-def">The amount of water vapor present in air expressed as a percentage of the amount needed for saturation at the same temperature. In the OR, the accepted range is 20–60% per ASHRAE Standard 170.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Humidity</div>
+        <div class="gloss-def">A quantity representing the amount of water vapor in the atmosphere or a gas.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Electro-Medical Device (EMD)</div>
+        <div class="gloss-def">An electronic instrument or equipment used for medical purposes and health care. EMDs may be sensitive to lower RH levels, particularly older models; IFUs must be consulted for each device.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Shelf Life</div>
+        <div class="gloss-def">The length of time for which an item remains usable, sterile, and fit for use. Lower-than-specified RH can shorten the shelf life of sterile supplies and compromise sterile barrier integrity.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Electrostatic Discharge (ESD)</div>
+        <div class="gloss-def">A sudden flow of electricity between two electrically charged objects. In low-humidity environments, ESD events are more frequent and more powerful — posing risks to EMD components and potentially completing the surgical fire triangle.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Instructions for Use (IFU)</div>
+        <div class="gloss-def">Manufacturer-provided documentation specifying the required conditions for safe storage and use of a product, including environmental humidity requirements. Also called Directions for Use (DFU). IFUs are legally and clinically binding.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Healthcare Delivery Organization (HDO)</div>
+        <div class="gloss-def">Any healthcare facility or organization responsible for developing, approving, and implementing policies for its clinical environment — including OR humidity standards, based on federal regulations and IFUs.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Healthcare Technology Management (HTM)</div>
+        <div class="gloss-def">Previously called "biomedical technicians." HTMs manage and maintain electro-medical devices and are key stakeholders in OR humidity risk assessment — particularly regarding EMD IFU requirements and ESD risk.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Andragogy</div>
+        <div class="gloss-def">The theory of adult learning, developed by Malcolm Knowles. Key principles: adults learn best when material is relevant to their work, practical rather than academic, and when learners are actively involved in the learning process. Required basis for CST continuing education.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">ASHRAE Standard 170</div>
+        <div class="gloss-def">Ventilation of Health Care Facilities. The standard that established the 20–60% RH range for anesthetizing locations. Adopted by NFPA 99 (2012) and CMS (2013). Addresses design standards — not 100% operational compliance at all times.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Excursion Data</div>
+        <div class="gloss-def">Manufacturer data documenting how long a product can remain outside its specified RH range before integrity or performance is compromised. This data may not be available for all products — contact the manufacturer directly.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">Surgical Fire Triangle</div>
+        <div class="gloss-def">The three elements required for a surgical fire: an ignition source (e.g., ESD or electrosurgery) + oxygen + fuel (e.g., drapes, gowns, prep agents). Low RH increases ESD risk, potentially completing this triangle.</div>
+      </div>
+      <div class="gloss-item">
+        <div class="gloss-term">HVAC</div>
+        <div class="gloss-def">Heating, Ventilation, and Air Conditioning system. Responsible for maintaining OR environmental conditions including temperature and RH. Achieving and maintaining specific RH levels can be costly and difficult in arid or cold climates.</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end content-wrap -->
+
+<script>
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function toggleExp(head) {
+  const card = head.closest('.exp-card');
+  card.classList.toggle('open');
+}
+</script>
+</body>
+</html>
